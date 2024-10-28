@@ -5,6 +5,7 @@ body,html{
     overflow: hidden;
 }
 body{
+  font-family: sans-serif;
     display: grid;
     place-items: center;
 }
@@ -68,7 +69,6 @@ input[type=number] {
   transform: scale(0.96);
 }
 h1{
-  font-family: sans-serif;
   color: white;
   margin: 5px;
 }
