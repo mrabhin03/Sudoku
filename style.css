@@ -34,7 +34,6 @@ input[type=number] {
     border-radius: 10px;
     overflow: hidden;
   }
-  
   .cell-input {
     width: 30px;
     height: 30px;
@@ -45,14 +44,27 @@ input[type=number] {
     background-color: #f0f0f0;
   }
   .cell-input:nth-child(3n + 1) { 
-    border-left: 3px solid black; 
+    border-left: 4px solid black; 
 }
   
   .cell-input:nth-child(n+19):nth-child(-n+27), /* Cells in rows 3, 6, 9 */
   .cell-input:nth-child(n+46):nth-child(-n+54),
   .cell-input:nth-child(n+73):nth-child(-n+81) {
-    border-bottom: 3px solid black; 
+    border-bottom: 4px solid black; 
 }
+.cell-input:nth-child(1){
+  border-top-left-radius:7px;
+  }
+.cell-input:nth-child(9){
+  border-top-right-radius: 7px;
+}
+.cell-input:nth-child(81){
+  border-bottom-right-radius: 7px;
+  }
+.cell-input:nth-child(73){
+border-bottom-left-radius: 7px;
+}
+
 .solver{
   background-color: rgb(0, 132, 255);
   border: none;
