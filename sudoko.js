@@ -94,7 +94,7 @@ async function AssignNumber(notfilled,pos){
             divValue=count < 1000 ? 3 : Math.floor(count / 1000) * 100;
             if(notfilled.length>(9*9)/2){
                 if(count%divValue==0){
-                    await sleep(20);
+                    await sleep(0);
                 }
             }else{
                 await sleep(5);
@@ -170,7 +170,7 @@ function getdata(){
     datacalculate()
 }
 async function displayAnswer(notfilled){
-
+    await sleep(100);
     for (let row = notfilled.length-1; row >= 0; row--) {
        
             document.getElementById(notfilled[row][0]+","+notfilled[row][1]).style.backgroundColor="#e1e1e1"
