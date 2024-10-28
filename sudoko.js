@@ -96,7 +96,6 @@ async function AssignNumber(notfilled,pos){
             }else{
                 divValue=5;
             }
-            document.getElementById('test').innerHTML=count
             if(notfilled.length>(9*9)/2){
                 if(count%divValue==0){
                     await sleep(0);
