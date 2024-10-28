@@ -13,6 +13,7 @@ body>div{
    align-items: center;
    justify-content: center;
    flex-direction: column;
+   gap: 10px;
 }
 #question ,#answer{
     display: grid;
@@ -40,4 +41,15 @@ body>div{
   .cell-input:nth-child(n+46):nth-child(-n+54),
   .cell-input:nth-child(n+73):nth-child(-n+81) {
     border-bottom: 3px solid black; 
+}
+.solver{
+  background-color: rgb(0, 132, 255);
+  border: none;
+  padding: 7px;
+  color: white;
+  border-radius: 5px;
+}
+h1{
+  font-family: sans-serif;
+  color: white;
 }
