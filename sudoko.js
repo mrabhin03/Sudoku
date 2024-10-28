@@ -16,6 +16,7 @@
     }
   }
   var Reset=true;
+  var work=true;
   var count=0;
   function resetall(){
     count=0;
@@ -25,6 +26,8 @@
                 board[row][col]=0;
                 document.getElementById(row+","+col).value='';
                 document.getElementById(row+","+col).style.backgroundColor='white';
+                document.getElementById(row+","+col).style.color='black';
+                document.getElementById(row+","+col).classList.remove('Wrong')
             }
         }
     }
@@ -61,16 +64,35 @@ function Avalable(row,col,Mode){
         color='white'
     }
     for(let i=0;i<9;i++){
-        document.getElementById(row+","+i).style.backgroundColor=color
+        let obj=document.getElementById(row+","+i);
+        obj.style.backgroundColor=color
+        if(obj.classList.contains('Wrong')){
+            obj.style.backgroundColor='red';
+            obj.style.color='white';
+            work=false;
+        }
+        
     }
     for(let i=0;i<9;i++){
-        document.getElementById(i+","+col).style.backgroundColor=color
+        let obj=document.getElementById(i+","+col)
+        obj.style.backgroundColor=color
+        if(obj.classList.contains('Wrong')){
+            obj.style.backgroundColor='red';
+            obj.style.color='white';
+            work=false;
+        }
     }
     let startrow=row-row%3;
     let startcol=col-col%3;
     for (let i = 0; i < 3; i++) {
         for (let j = 0; j < 3; j++) {
-            document.getElementById((i+startrow)+","+(j+startcol)).style.backgroundColor=color
+            let obj = document.getElementById((i+startrow)+","+(j+startcol))
+            obj.style.backgroundColor=color
+            if(obj.classList.contains('Wrong')){
+                obj.style.backgroundColor='red';
+                obj.style.color='white';
+                work=false;
+            }
         }
     }
 }
@@ -81,10 +103,17 @@ function checkdata(object,row,col){
         if(!checkExist(row,col,value)){
             object.style.backgroundColor='red';
             object.style.color='white';
+            object.classList.add('Wrong');
+            work=true;
+        }else{
+            object.classList.remove('Wrong');
+            work=true;
         }
     }else{
+        object.classList.remove('Wrong');
         object.style.backgroundColor='#c8c8c8';
         object.style.color='black';
+        work=true;
     }
     object.value=value
     board[row][col]=value
@@ -185,35 +214,43 @@ function checkExist(row,col,value){
 }
 function getdata(){
     Reset=false;
-    resetBoard()
-    for (let row = 0; row < 9; row++) {
-        for (let col = 0; col < 9; col++) {
-            TheObject=document.getElementById(row+","+col);
-            TheObject.style.backgroundColor='#d2d2d2';
-            value=TheObject.value;
-            if(value==''){
-                
-                board[row][col]=0;
-            }else{
-                if(!checkExist(row,col,value)){
-                    TheObject.style.backgroundColor='red';
-                    resetBoard();
-                    return false
+    if(work){
+        resetBoard()
+        for (let row = 0; row < 9; row++) {
+            for (let col = 0; col < 9; col++) {
+                TheObject=document.getElementById(row+","+col);
+                value=TheObject.value;
+                if(value==''){
+                    
+                    board[row][col]=0;
+                }else{
+                    if(!checkExist(row,col,value)){
+                        TheObject.style.backgroundColor='red';
+                        TheObject.style.color='white';
+                        TheObject.classList.add('Wrong')
+                        resetBoard();
+                        work=false;
+                        Reset=true;
+                        return false
+                    }
+                    board[row][col]=value
                 }
-                board[row][col]=value
             }
         }
-    }
-    for (let row = 0; row < 9; row++) {
-        for (let col = 0; col < 9; col++) {
-            NObject=document.getElementById(row+","+col);
-            value=NObject.value;
-            if(value==''){
-                NObject.style.backgroundColor='white';
+        for (let row = 0; row < 9; row++) {
+            for (let col = 0; col < 9; col++) {
+                NObject=document.getElementById(row+","+col);
+                value=NObject.value;
+                NObject.style.color='black';
+                if(value==''){
+                    NObject.style.backgroundColor='white';
+                }else{
+                    NObject.style.backgroundColor='#d2d2d2';
+                }
             }
         }
+        datacalculate()
     }
-    datacalculate()
 }
 async function displayAnswer(notfilled){
     await sleep(100);
