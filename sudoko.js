@@ -91,7 +91,7 @@ async function AssignNumber(notfilled,pos){
             themainobject.style.color='white'
             board[row][col]=i;
             themainobject.value=i
-            divValue=count < 1000 ? 3 : Math.floor(count / 1000) * 100;
+            divValue=count < 1000 ? 50 : Math.floor(count / 1000) * 100;
             if(notfilled.length>(9*9)/2){
                 if(count%divValue==0){
                     await sleep(0);
