@@ -46,8 +46,11 @@ input[type=number] {
   .cell-input:nth-child(3n + 1) { 
     border-left: 4px solid black; 
 }
-  
-  .cell-input:nth-child(n+19):nth-child(-n+27), /* Cells in rows 3, 6, 9 */
+  .cell-input:focus{
+    outline: none;
+    box-shadow: none;
+  }
+  .cell-input:nth-child(n+19):nth-child(-n+27), 
   .cell-input:nth-child(n+46):nth-child(-n+54),
   .cell-input:nth-child(n+73):nth-child(-n+81) {
     border-bottom: 4px solid black; 

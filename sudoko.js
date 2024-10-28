@@ -42,11 +42,53 @@ function inputInsert(){
             input.setAttribute('data-col', col);
             input.addEventListener('input', function() {
             this.value = this.value.replace(/[^1-9]/g, '');  
+            checkdata(this,row,col)
             });
-
+            input.addEventListener('focus', function() {
+                Avalable(row,col,1)
+            });
+            input.addEventListener('blur', function() {
+                Avalable(row,col,0)
+            });
             questionDiv.appendChild(input);
         }
     }
+}
+function Avalable(row,col,Mode){
+    if(Mode==1){
+        color='#d3d3d3'
+    }else{
+        color='white'
+    }
+    for(let i=0;i<9;i++){
+        document.getElementById(row+","+i).style.backgroundColor=color
+    }
+    for(let i=0;i<9;i++){
+        document.getElementById(i+","+col).style.backgroundColor=color
+    }
+    let startrow=row-row%3;
+    let startcol=col-col%3;
+    for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 3; j++) {
+            document.getElementById((i+startrow)+","+(j+startcol)).style.backgroundColor=color
+        }
+    }
+}
+function checkdata(object,row,col){
+    value=object.value
+    if(value!=''){
+        object.value='';
+        if(!checkExist(row,col,value)){
+            object.style.backgroundColor='red';
+            object.style.color='white';
+        }
+    }else{
+        object.style.backgroundColor='#c8c8c8';
+        object.style.color='black';
+    }
+    object.value=value
+    board[row][col]=value
+
 }
 inputInsert()
 async function datacalculate(){
