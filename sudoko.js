@@ -91,7 +91,12 @@ async function AssignNumber(notfilled,pos){
             themainobject.style.color='white'
             board[row][col]=i;
             themainobject.value=i
-            divValue=count < 1000 ? 60 : Math.floor(count / 1000) * 100;
+            if(count>500){
+                divValue=count < 1000 ? 60 : Math.floor(count / 1000) * 100;
+            }else{
+                divValue=5;
+            }
+            document.getElementById('test').innerHTML=count
             if(notfilled.length>(9*9)/2){
                 if(count%divValue==0){
                     await sleep(0);
@@ -143,7 +148,7 @@ function getdata(){
     for (let row = 0; row < 9; row++) {
         for (let col = 0; col < 9; col++) {
             TheObject=document.getElementById(row+","+col);
-            TheObject.style.backgroundColor='white';
+            TheObject.style.backgroundColor='#d2d2d2';
             value=TheObject.value;
             if(value==''){
                 
@@ -163,7 +168,7 @@ function getdata(){
             NObject=document.getElementById(row+","+col);
             value=NObject.value;
             if(value==''){
-                NObject.style.backgroundColor='#e4e4e4';
+                NObject.style.backgroundColor='white';
             }
         }
     }
@@ -173,7 +178,7 @@ async function displayAnswer(notfilled){
     await sleep(100);
     for (let row = notfilled.length-1; row >= 0; row--) {
        
-            document.getElementById(notfilled[row][0]+","+notfilled[row][1]).style.backgroundColor="#e1e1e1"
+            document.getElementById(notfilled[row][0]+","+notfilled[row][1]).style.backgroundColor="white"
             document.getElementById(notfilled[row][0]+","+notfilled[row][1]).style.color="black"
             await sleep(20);
     }
