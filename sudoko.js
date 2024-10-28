@@ -68,7 +68,7 @@ async function datacalculate(){
 
 }
 function sleep() {
-    ms=20;
+    ms=2;
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 async function AssignNumber(notfilled,pos){
