@@ -62,3 +62,11 @@ h1{
   color: white;
   margin: 5px;
 }
+.class_action{
+  display: flex;
+  gap: 10px;
+}
+.class_action>button:first-child{
+  background-color: white;
+  color: black;
+}

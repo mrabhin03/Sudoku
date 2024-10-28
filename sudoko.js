@@ -12,13 +12,21 @@
   function resetBoard(){
     for (let row = 0; row < 9; row++) {
         for (let col = 0; col < 9; col++) {
-            board[row][col]=0;
+            board[row][col]=0;        }
+    }
+  }
+  var Reset=true;
+  function resetall(){
+    if(Reset){
+        for (let row = 0; row < 9; row++) {
+            for (let col = 0; col < 9; col++) {
+                board[row][col]=0;
+                document.getElementById(row+","+col).value='';
+            }
         }
     }
   }
   const questionDiv = document.getElementById('question');
-  const aswerDiv = document.getElementById('answer');
-  aswerDiv.style.display='none';
 function inputInsert(){
     for (let row = 0; row < 9; row++) {
         for (let col = 0; col < 9; col++) {
@@ -119,6 +127,7 @@ function checkExist(row,col,value){
     return true
 }
 function getdata(){
+    Reset=false;
     resetBoard()
     for (let row = 0; row < 9; row++) {
         for (let col = 0; col < 9; col++) {
@@ -157,5 +166,6 @@ async function displayAnswer(notfilled){
             document.getElementById(notfilled[row][0]+","+notfilled[row][1]).style.color="black"
             await sleep();
     }
+    Reset=true;
 }
 // datacalculate()
