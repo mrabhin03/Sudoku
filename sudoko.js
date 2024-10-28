@@ -16,12 +16,15 @@
     }
   }
   var Reset=true;
+  var count=0;
   function resetall(){
+    count=0;
     if(Reset){
         for (let row = 0; row < 9; row++) {
             for (let col = 0; col < 9; col++) {
                 board[row][col]=0;
                 document.getElementById(row+","+col).value='';
+                document.getElementById(row+","+col).style.backgroundColor='white';
             }
         }
     }
@@ -67,8 +70,8 @@ async function datacalculate(){
     
 
 }
-function sleep() {
-    ms=2;
+
+function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 async function AssignNumber(notfilled,pos){
@@ -88,9 +91,17 @@ async function AssignNumber(notfilled,pos){
             themainobject.style.color='white'
             board[row][col]=i;
             themainobject.value=i
-            await sleep();
+            divValue=count < 1000 ? 3 : Math.floor(count / 1000) * 100;
+            if(notfilled.length>(9*9)/2){
+                if(count%divValue==0){
+                    await sleep(20);
+                }
+            }else{
+                await sleep(5);
+            }
+            count++;
+            
             if( await AssignNumber(notfilled,pos+1)){
-                await sleep();
                 return true
             }
             board[row][col]=0;
@@ -164,7 +175,7 @@ async function displayAnswer(notfilled){
        
             document.getElementById(notfilled[row][0]+","+notfilled[row][1]).style.backgroundColor="#e1e1e1"
             document.getElementById(notfilled[row][0]+","+notfilled[row][1]).style.color="black"
-            await sleep();
+            await sleep(20);
     }
     Reset=true;
 }
