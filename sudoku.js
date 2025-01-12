@@ -46,6 +46,7 @@ function inputInsert(){
             const input = document.createElement('input');
             input.type = 'text';
             input.id=row+","+col;
+            input.inputMode = 'numeric';
             input.classList.add('cell-input');
             input.setAttribute('data-row', row);
             input.setAttribute('data-col', col);
