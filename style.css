@@ -42,6 +42,18 @@ input[type=number] {
     border: 1px solid black;
     box-sizing: border-box;
     background-color: #f0f0f0;
+    color: black;
+  }
+  .cell-input.active{
+    background-color: #d3d3d3;
+  }
+  .cell-input.Wrong{
+    background-color: red;
+    color: white;
+  }
+  .cell-input.Pass{
+    background-color: green;
+    color: white;
   }
   .cell-input:nth-child(3n + 1) { 
     border-left: 4px solid black; 

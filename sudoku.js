@@ -9,6 +9,13 @@
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0]
   ];
+//   for(i=0;i<=200000;i++){
+//     let j = Math.pow(10, Math.floor(Math.log10(i)))/10;
+//     if(i%j!=0){
+//         console.log(i)
+//     }
+//   }
+
   function resetBoard(){
     for (let row = 0; row < 9; row++) {
         for (let col = 0; col < 9; col++) {
@@ -25,9 +32,9 @@
             for (let col = 0; col < 9; col++) {
                 board[row][col]=0;
                 document.getElementById(row+","+col).value='';
-                document.getElementById(row+","+col).style.backgroundColor='white';
-                document.getElementById(row+","+col).style.color='black';
                 document.getElementById(row+","+col).classList.remove('Wrong')
+                document.getElementById(row+","+col).classList.remove('active')
+                document.getElementById(row+","+col).classList.remove('Pass')
             }
         }
     }
@@ -45,6 +52,9 @@ function inputInsert(){
             input.setAttribute('data-col', col);
             input.addEventListener('input', function() {
             this.value = this.value.replace(/[^1-9]/g, '');  
+            if (this.value.length > 1) {
+                this.value = this.value.charAt(1);
+            }
             checkdata(this,row,col)
             });
             input.addEventListener('focus', function() {
@@ -58,27 +68,20 @@ function inputInsert(){
     }
 }
 function Avalable(row,col,Mode){
-    if(Mode==1){
-        color='#d3d3d3'
-    }else{
-        color='white'
-    }
     for(let i=0;i<9;i++){
         let obj=document.getElementById(row+","+i);
-        obj.style.backgroundColor=color
+        if(Mode==1)obj.classList.add("active")
+        else obj.classList.remove("active")
         if(obj.classList.contains('Wrong')){
-            obj.style.backgroundColor='red';
-            obj.style.color='white';
             work=false;
         }
         
     }
     for(let i=0;i<9;i++){
         let obj=document.getElementById(i+","+col)
-        obj.style.backgroundColor=color
+        if(Mode==1)obj.classList.add("active")
+        else obj.classList.remove("active")
         if(obj.classList.contains('Wrong')){
-            obj.style.backgroundColor='red';
-            obj.style.color='white';
             work=false;
         }
     }
@@ -87,10 +90,9 @@ function Avalable(row,col,Mode){
     for (let i = 0; i < 3; i++) {
         for (let j = 0; j < 3; j++) {
             let obj = document.getElementById((i+startrow)+","+(j+startcol))
-            obj.style.backgroundColor=color
+            if(Mode==1)obj.classList.add("active")
+            else obj.classList.remove("active")
             if(obj.classList.contains('Wrong')){
-                obj.style.backgroundColor='red';
-                obj.style.color='white';
                 work=false;
             }
         }
@@ -100,9 +102,8 @@ function checkdata(object,row,col){
     value=object.value
     if(value!=''){
         object.value='';
+        board[row][col]=0
         if(!checkExist(row,col,value)){
-            object.style.backgroundColor='red';
-            object.style.color='white';
             object.classList.add('Wrong');
             work=true;
         }else{
@@ -111,8 +112,6 @@ function checkdata(object,row,col){
         }
     }else{
         object.classList.remove('Wrong');
-        object.style.backgroundColor='#c8c8c8';
-        object.style.color='black';
         work=true;
     }
     object.value=value
@@ -133,6 +132,8 @@ async function datacalculate(){
         }
     }
     if(!(await AssignNumber(notfilled,0))){
+        alert("No solution")
+        resetall()
         return false;
     }else{
         await displayAnswer(notfilled)
@@ -158,12 +159,12 @@ async function AssignNumber(notfilled,pos){
         let col=notfilled[pos][1];
         if(checkExist(row,col,i)){
             themainobject=document.getElementById(row+","+col)
-            themainobject.style.backgroundColor='green'
-            themainobject.style.color='white'
+            themainobject.classList.remove("Wrong")
+            themainobject.classList.add("Pass");
             board[row][col]=i;
             themainobject.value=i
             if(count>500){
-                divValue=count < 1000 ? 60 : Math.floor(count / 1000) * 100;
+                divValue=count < 1000 ? 60 : Math.pow(10, Math.floor(Math.log10(count)))/10;
             }else{
                 divValue=5;
             }
@@ -172,16 +173,16 @@ async function AssignNumber(notfilled,pos){
                     await sleep(0);
                 }
             }else{
-                await sleep(5);
+                await sleep(50);
             }
             count++;
-            
             if( await AssignNumber(notfilled,pos+1)){
                 return true
             }
             board[row][col]=0;
             themainobject.value=''
-            themainobject.style.backgroundColor='red'
+            themainobject.classList.remove("Pass");
+            themainobject.classList.add("Wrong")
         }
         
     }
@@ -225,8 +226,6 @@ function getdata(){
                     board[row][col]=0;
                 }else{
                     if(!checkExist(row,col,value)){
-                        TheObject.style.backgroundColor='red';
-                        TheObject.style.color='white';
                         TheObject.classList.add('Wrong')
                         resetBoard();
                         work=false;
@@ -241,11 +240,10 @@ function getdata(){
             for (let col = 0; col < 9; col++) {
                 NObject=document.getElementById(row+","+col);
                 value=NObject.value;
-                NObject.style.color='black';
                 if(value==''){
-                    NObject.style.backgroundColor='white';
+                    // NObject.style.backgroundColor='white';
                 }else{
-                    NObject.style.backgroundColor='#d2d2d2';
+                    NObject.classList.add('active')
                 }
             }
         }
@@ -255,9 +253,8 @@ function getdata(){
 async function displayAnswer(notfilled){
     await sleep(100);
     for (let row = notfilled.length-1; row >= 0; row--) {
-       
-            document.getElementById(notfilled[row][0]+","+notfilled[row][1]).style.backgroundColor="white"
-            document.getElementById(notfilled[row][0]+","+notfilled[row][1]).style.color="black"
+            document.getElementById(notfilled[row][0]+","+notfilled[row][1]).classList.remove('Pass')
+            document.getElementById(notfilled[row][0]+","+notfilled[row][1]).classList.remove('Wrong')
             await sleep(20);
     }
     Reset=true;
