@@ -44,9 +44,8 @@ function inputInsert(){
     for (let row = 0; row < 9; row++) {
         for (let col = 0; col < 9; col++) {
             const input = document.createElement('input');
-            input.type = 'number';
+            input.type = 'text';
             input.id=row+","+col;
-            input.maxLength = 1;  
             input.classList.add('cell-input');
             input.setAttribute('data-row', row);
             input.setAttribute('data-col', col);
@@ -56,6 +55,11 @@ function inputInsert(){
                 this.value = this.value.charAt(1);
             }
             checkdata(this,row,col)
+            });
+            input.addEventListener('click', function () {
+                if (this.value.length > 0) {
+                    this.setSelectionRange(1,1);
+                }
             });
             input.addEventListener('focus', function() {
                 Avalable(row,col,1)
@@ -68,22 +72,21 @@ function inputInsert(){
     }
 }
 function Avalable(row,col,Mode){
+    for (let rowt = 0; rowt < 9; rowt++) {
+        for (let colt = 0; colt < 9; colt++) {
+            document.getElementById(rowt+","+colt).classList.remove("active")
+        }
+    }
     for(let i=0;i<9;i++){
         let obj=document.getElementById(row+","+i);
         if(Mode==1)obj.classList.add("active")
         else obj.classList.remove("active")
-        if(obj.classList.contains('Wrong')){
-            work=false;
-        }
         
     }
     for(let i=0;i<9;i++){
         let obj=document.getElementById(i+","+col)
         if(Mode==1)obj.classList.add("active")
         else obj.classList.remove("active")
-        if(obj.classList.contains('Wrong')){
-            work=false;
-        }
     }
     let startrow=row-row%3;
     let startcol=col-col%3;
@@ -92,10 +95,14 @@ function Avalable(row,col,Mode){
             let obj = document.getElementById((i+startrow)+","+(j+startcol))
             if(Mode==1)obj.classList.add("active")
             else obj.classList.remove("active")
-            if(obj.classList.contains('Wrong')){
-                work=false;
-            }
         }
+    }
+    if(Mode==1){
+        document.getElementById(row+","+col).classList.remove("active")
+        document.getElementById(row+","+col).classList.add("this")
+    }
+    else{ 
+        document.getElementById(row+","+col).classList.remove("this")
     }
 }
 function checkdata(object,row,col){

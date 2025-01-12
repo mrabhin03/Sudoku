@@ -35,6 +35,7 @@ input[type=number] {
     overflow: hidden;
   }
   .cell-input {
+    caret-color: transparent;
     width: 30px;
     height: 30px;
     text-align: center;
@@ -44,8 +45,11 @@ input[type=number] {
     background-color: #f0f0f0;
     color: black;
   }
+  .cell-input.this {
+    background-color: rgb(255, 255, 255);
+  }
   .cell-input.active{
-    background-color: #d3d3d3;
+    background-color: #c8e7f9;
   }
   .cell-input.Wrong{
     background-color: red;
